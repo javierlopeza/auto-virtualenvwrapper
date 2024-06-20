@@ -61,11 +61,11 @@ async function setupPythonEnvironment(editor, pythonApi) {
       }
       return;
     }
-  }
 
-  currentDirPath = path.dirname(currentDirPath);
-  if (currentDirPath === ".") {
-    currentDirPath = "";
+    currentDirPath = path.dirname(currentDirPath);
+    if (currentDirPath === ".") {
+      currentDirPath = "";
+    }
   }
 }
 

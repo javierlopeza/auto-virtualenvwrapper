@@ -2,6 +2,12 @@
   "name": "auto-virtualenvwrapper",
   "displayName": "auto-virtualenvwrapper",
   "description": "Automatically activate Python virtual environments (created with virtualenvwrapper) as you navigate the source code.",
+  "publisher": "javierlopeza",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/javierlopeza/auto-virtualenvwrapper.git"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.90.0"
@@ -9,19 +15,55 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "icon": "icon.png",
+  "keywords": [
+    "python",
+    "virtualenvwrapper",
+    "venv",
+    "virtualenv",
+    "pipenv",
+    "monorepo",
+    "workon"
+  ],
+  "activationEvents": [
+    "onDebugInitialConfigurations",
+    "onLanguage:python",
+    "onDebugResolve:python",
+    "workspaceContains:mspythonconfig.json",
+    "workspaceContains:pyproject.toml",
+    "workspaceContains:Pipfile",
+    "workspaceContains:setup.py",
+    "workspaceContains:requirements.txt",
+    "workspaceContains:manage.py",
+    "workspaceContains:app.py"
+  ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "auto-virtualenvwrapper.helloWorld",
-      "title": "Hello World"
-    }]
+    "commands": [
+      {
+        "command": "auto-virtualenvwrapper.helloWorld",
+        "title": "Hello World"
+      }
+    ],
+    "configuration": {
+      "title": "auto-virtualenvwrapper",
+      "properties": {
+        "auto-virtualenvwrapper.virtualenvsPath": {
+          "type": "string",
+          "default": "~/.virtualenvs",
+          "description": "Path to virtualenvwrapper virtual environments directory."
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
     "test": "vscode-test"
   },
+  "extensionDependencies": [
+    "ms-python.python"
+  ],
   "devDependencies": {
     "@types/vscode": "^1.90.0",
     "@types/mocha": "^10.0.6",
@@ -30,5 +72,8 @@
     "typescript": "^5.4.5",
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.4.0"
+  },
+  "dependencies": {
+    "@vscode/python-extension": "^1.0.5"
   }
 }

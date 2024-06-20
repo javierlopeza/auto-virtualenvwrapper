@@ -25,9 +25,3 @@ This extension has the following setting:
 ## Known Issues
 
 N/A
-
-## Release Notes
-
-### 1.0.0
-
-Initial release of auto-virtualenvwrapper

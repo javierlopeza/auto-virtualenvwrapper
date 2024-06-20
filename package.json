@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/javierlopeza/auto-virtualenvwrapper.git"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.90.0"
   },
@@ -26,25 +26,10 @@
     "workon"
   ],
   "activationEvents": [
-    "onDebugInitialConfigurations",
-    "onLanguage:python",
-    "onDebugResolve:python",
-    "workspaceContains:mspythonconfig.json",
-    "workspaceContains:pyproject.toml",
-    "workspaceContains:Pipfile",
-    "workspaceContains:setup.py",
-    "workspaceContains:requirements.txt",
-    "workspaceContains:manage.py",
-    "workspaceContains:app.py"
+    "onLanguage:python"
   ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "auto-virtualenvwrapper.helloWorld",
-        "title": "Hello World"
-      }
-    ],
     "configuration": {
       "title": "auto-virtualenvwrapper",
       "properties": {

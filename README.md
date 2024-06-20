@@ -20,7 +20,7 @@ The [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-py
 
 This extension has the following setting:
 
-* `autoVirtualenvwrapper.virtualenvsPath`: Path to virtualenvwrapper virtual environments directory. Defaults to `~/.virtualenvs`.
+* `autoVirtualenvwrapper.virtualenvsPath`: Path to virtualenvwrapper virtual environments directory. Defaults to `/.virtualenvs`. If you are on Mac, it probably is something similar to `/Users/javier/.virtualenvs`.
 
 ## Known Issues
 

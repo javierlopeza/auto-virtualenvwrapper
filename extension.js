@@ -1,6 +1,7 @@
 const { PythonExtension } = require("@vscode/python-extension");
 const vscode = require("vscode");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
 /**
@@ -26,10 +27,14 @@ async function activate(context) {
 async function setupPythonEnvironment(editor, pythonApi) {
   let currentDirPath = path.dirname(editor.document.uri.fsPath);
   const root = path.parse(currentDirPath).root;
-  const virtualenvsPath = vscode.workspace
-    .getConfiguration()
-    .get("auto-virtualenvwrapper.virtualenvsPath");
 
+  // Get .virtualenvs path, replacing "~" with home dir if needed
+  const virtualenvsPath = resolveHomeDir(
+    vscode.workspace
+      .getConfiguration()
+      .get("auto-virtualenvwrapper.virtualenvsPath")
+  );
+  
   // Iterate upwards through directories
   while (currentDirPath !== root) {
     const currentDirName = path.basename(currentDirPath);
@@ -69,7 +74,14 @@ async function setupPythonEnvironment(editor, pythonApi) {
   }
 }
 
-function deactivate() {}
+function resolveHomeDir(filepath) {
+  if (filepath.startsWith('~')) {
+    return path.join(os.homedir(), filepath.slice(1));
+  }
+  return filepath;
+}
+
+function deactivate() { }
 
 module.exports = {
   activate,

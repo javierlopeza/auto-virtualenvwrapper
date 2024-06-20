@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/javierlopeza/auto-virtualenvwrapper.git"
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
     "vscode": "^1.90.0"
   },
@@ -26,7 +26,16 @@
     "workon"
   ],
   "activationEvents": [
-    "onLanguage:python"
+    "onDebugInitialConfigurations",
+    "onLanguage:python",
+    "onDebugResolve:python",
+    "workspaceContains:mspythonconfig.json",
+    "workspaceContains:pyproject.toml",
+    "workspaceContains:Pipfile",
+    "workspaceContains:setup.py",
+    "workspaceContains:requirements.txt",
+    "workspaceContains:manage.py",
+    "workspaceContains:app.py"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -35,7 +44,7 @@
       "properties": {
         "auto-virtualenvwrapper.virtualenvsPath": {
           "type": "string",
-          "default": "/.virtualenvs",
+          "default": "~/.virtualenvs",
           "description": "Path to virtualenvwrapper virtual environments directory."
         }
       }

@@ -1,36 +1,77 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
-
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const { PythonExtension } = require("@vscode/python-extension");
+const vscode = require("vscode");
+const fs = require("fs");
+const path = require("path");
 
 /**
  * @param {vscode.ExtensionContext} context
  */
-function activate(context) {
+async function activate(context) {
+  let pythonApi = await PythonExtension.api();
+  const activeEditor = vscode.window.activeTextEditor;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "auto-virtualenvwrapper" is now active!');
+  if (activeEditor) {
+    await setupPythonEnvironment(activeEditor, pythonApi);
+  }
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('auto-virtualenvwrapper.helloWorld', function () {
-		// The code you place here will be executed every time your command is executed
+  let disposable = vscode.window.onDidChangeActiveTextEditor(async (editor) => {
+    if (editor) {
+      await setupPythonEnvironment(editor, pythonApi);
+    }
+  });
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from auto-virtualenvwrapper!');
-	});
-
-	context.subscriptions.push(disposable);
+  context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
+async function setupPythonEnvironment(editor, pythonApi) {
+  let currentDirPath = path.dirname(editor.document.uri.fsPath);
+  const root = path.parse(currentDirPath).root;
+  const virtualenvsPath = vscode.workspace
+    .getConfiguration()
+    .get("auto-virtualenvwrapper.virtualenvsPath");
+
+  // Iterate upwards through directories
+  while (currentDirPath !== root) {
+    const currentDirName = path.basename(currentDirPath);
+    const candidatePythonPath = path.join(
+      virtualenvsPath,
+      currentDirName,
+      "bin",
+      "python"
+    );
+    const currentPythonPath =
+      pythonApi.environments.getActiveEnvironmentPath().path;
+    // If the candidate Python path for the current directory exists
+    // and it is different from the active one, we try switching to it
+    if (
+      fs.existsSync(candidatePythonPath) &&
+      currentPythonPath !== candidatePythonPath
+    ) {
+      try {
+        await pythonApi.environments.updateActiveEnvironmentPath(
+          candidatePythonPath
+        );
+        vscode.window.showInformationMessage(
+          `auto-virtualenvwrapper: interpreter set to: ${currentDirName}`
+        );
+      } catch (error) {
+        vscode.window.showErrorMessage(
+          `auto-virtualenvwrapper: error setting Python interpreter: ${error.message}`
+        );
+      }
+      return;
+    }
+  }
+
+  currentDirPath = path.dirname(currentDirPath);
+  if (currentDirPath === ".") {
+    currentDirPath = "";
+  }
+}
+
 function deactivate() {}
 
 module.exports = {
-	activate,
-	deactivate
-}
+  activate,
+  deactivate,
+};

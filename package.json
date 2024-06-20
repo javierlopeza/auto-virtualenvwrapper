@@ -48,7 +48,7 @@
     "configuration": {
       "title": "auto-virtualenvwrapper",
       "properties": {
-        "autoVirtualenvwrapper.virtualenvsPath": {
+        "auto-virtualenvwrapper.virtualenvsPath": {
           "type": "string",
           "default": "~/.virtualenvs",
           "description": "Path to virtualenvwrapper virtual environments directory."

@@ -10,6 +10,8 @@ This is useful if you are working with a monorepo that contains sub-projects, mo
 
 As you can see in the following demo, the active Python environment changes as soon as a file is loaded into the editor. The environment is set by looking for the first virtual environment with matching name to the containing directory. If none is found, we look for the upper directory, and so on.
 
+![demo](/images/demo.gif)
+
 ## Requirements
 
 The [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python) must be enabled for this to work.
@@ -19,9 +21,6 @@ The [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-py
 This extension has the following setting:
 
 * `autoVirtualenvwrapper.virtualenvsPath`: Path to virtualenvwrapper virtual environments directory. Defaults to `~/.virtualenvs`.
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
 
 ## Known Issues
 
